@@ -1,24 +1,28 @@
-import React from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Link } from "react-router-dom"; // For navigation
 import {
-  Home,
   BarChart,
-  PieChart,
-  Timeline,
-  CalendarToday,
-  Description,
-  Settings,
-  People,
-  ExitToApp,
-  Medication,
-  Search,
-  VerifiedUser,
   Dashboard,
+  ExitToApp,
+  Home,
+  Medication,
+  People,
+  PieChart,
+  Search,
+  Settings,
+  Timeline,
+  VerifiedUser
 } from "@mui/icons-material"; // Icons
 import { ListOrderedIcon } from "lucide-react";
-
+import React from "react";
+import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
+import { Link, useNavigate } from "react-router-dom"; // For navigation
 const Side = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token from local storage
+    console.log("Token removed, logging out...");
+    navigate("/"); // Navigate to the logout route
+  };
   return (
     <Sidebar
       rootStyles={{
@@ -56,7 +60,7 @@ const Side = () => {
         <MenuItem icon={<Home />} component={<Link to="/" />}>
           Home
         </MenuItem>
-        <MenuItem icon={<Dashboard />} component={<Link to="/" />}>
+        <MenuItem icon={<Dashboard />} component={<Link to="/admindashboard" />}>
           Dashboard
         </MenuItem>
 
@@ -76,7 +80,7 @@ const Side = () => {
         </MenuItem>
 
         {/* search items */}
-        <MenuItem icon={<Search />} component={<Link to="/searchitems" />}>
+        <MenuItem icon={<Search />} component={<Link to="/getitems" />}>
           Search Items
         </MenuItem>
         <MenuItem icon={<VerifiedUser />} component={<Link to="/allusers" />}>
@@ -109,6 +113,7 @@ const Side = () => {
           icon={<ExitToApp />}
           component={<Link to="/logout" />}
           style={{ color: "#ff4444" }}
+          onClick={handleLogout}
         >
           Logout
         </MenuItem>
