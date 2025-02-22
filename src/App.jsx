@@ -7,9 +7,11 @@ import Allorder from "./core/private/all order/allorder";
 import Users from "./core/private/all users/allusers";
 import Dashboard from "./core/private/dashboard/dashboard";
 import BabyCare from "./core/public/product/babycare";
+import Ordercart from "./core/public/my cart/mycart";
 const Home = lazy(() => import("./core/public/home/home"));
 const Login = lazy(() => import("./core/public/creads/login_page"));
 const Signup = lazy(() => import("./core/public/creads/signup_page"));
+const FirstAid = lazy(() => import("./core/public/product/FirstAid"));
 const queryClient = new QueryClient();
 function App() {
     const publicRoutes = [
@@ -82,6 +84,30 @@ function App() {
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
                    <BabyCare/>
+                </Suspense>
+            ),
+        },
+        {
+            path: "/mycart",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                   <Ordercart/>
+                </Suspense>
+            ),
+        },
+        {
+            path: "/first-aid",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                   <FirstAid/>
+                </Suspense>
+            ),
+        },
+        {
+            path: "/mycart",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                   <Ordercart/>
                 </Suspense>
             ),
         },
