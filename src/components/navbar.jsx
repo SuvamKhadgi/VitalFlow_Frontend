@@ -1,6 +1,6 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, Eye, LogIn, LucideBaby, Mars, Menu, ShoppingCart, Tablet, Venus, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +9,63 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(token !== null);
+    // const featherScript = document.createElement("script");
+    // featherScript.src = "https://unpkg.com/feather-icons";
+    // featherScript.async = true;
+    // document.body.appendChild(featherScript);
+
+    // const customScript = document.createElement("script");
+    // customScript.async = true;
+    // document.body.appendChild(customScript);
+
+    // featherScript.onload = () => {
+    //   window.feather.replace();
+    // };
+  }, []);
+
+  const handleLoginRedirect = () => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      const decodedToken = parseJwt(token);
+      console.log('Decoded Token:', decodedToken);
+
+      if (decodedToken.roles && decodedToken.roles.includes("admin")) {
+        window.location.href = "/admindashboard";
+      } else {
+        window.location.href = "/";
+      }
+    } else {
+      window.location.href = "/login";
+    }
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("name");
+    setIsLoggedIn(false);
+  };
+
+  const parseJwt = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
+        .join('')
+    );
+
+    return JSON.parse(jsonPayload);
+  };
+
   return (
-    <header className="w-full border-b fixed  bg-white">
+    <header className="w-full border-b fixed z-10 bg-white">
       {/* Top Bar */}
       <div className="flex h-16 items-center justify-between border-b px-4 md:px-6">
         <div className="flex items-center gap-6">
@@ -31,16 +86,30 @@ const Navbar = () => {
 
         {/* Right Utilities */}
         <div className="flex items-center gap-4">
-          <button className="hidden md:flex hover:bg-emerald-300  rounded-2xl border-3 p-3">
+          <a href="https://github.com/SuvamKhadgi/vitalflow"><button className="hidden md:flex hover:bg-emerald-300  rounded-2xl border-3 p-3">
             <Tablet />
             Download App
-          </button>
-          <button className=" hover:bg-blue-300  rounded-4xl p-1">
+          </button></a>
+          <a href="/mycart"><button className=" hover:bg-blue-300  rounded-4xl p-1">
             <ShoppingCart size={32} />
-          </button>
-          <button className="hover:bg-blue-300 rounded-4xl p-1">
-            <LogIn size={32} />
-          </button>
+            Cart
+          </button></a>
+
+          {isLoggedIn ? (
+            <>
+              <button onClick={handleLogout} className="hover:bg-red-300 rounded-4xl p-1">
+                <LogIn size={32} />
+                Logout
+              </button>
+            </>
+          ) : (
+            <a href="/login">
+              <button className="hover:bg-blue-300 rounded-4xl p-1">
+                <LogIn size={32} />
+                Login
+              </button>
+            </a>
+          )}
 
           {/* Hamburger Menu Icon */}
           <button className="md:hidden" onClick={toggleMenu}>
