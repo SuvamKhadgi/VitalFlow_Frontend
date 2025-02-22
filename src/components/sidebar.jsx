@@ -20,6 +20,9 @@ const Side = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove the token from local storage
+    localStorage.removeItem("name"); // Remove the token from local storage
+    localStorage.removeItem("id"); // Remove the token from local storage
+    localStorage.removeItem("role"); // Remove the token from local storage
     console.log("Token removed, logging out...");
     navigate("/"); // Navigate to the logout route
   };
