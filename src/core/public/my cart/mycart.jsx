@@ -11,6 +11,7 @@ const Ordercart = () => {
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const navigate = useNavigate();
+    const [cartId, setCartId] = useState(""); // Store the Cart ID
 
     useEffect(() => {
         if (!localStorage.getItem("token")) {
@@ -40,9 +41,13 @@ const Ordercart = () => {
                 );
                 console.log("API Response:", response);
                 console.log("Response Data:", response.data);
-                const itemsArray = response.data[0]?.items || [];
-                console.log("Extracted Items:", itemsArray);
-                setCartItems(itemsArray);
+                // const itemsArray = response.data[0]?.items || [];
+                // console.log("Extracted Items:", itemsArray);
+                // setCartItems(itemsArray);
+                if (response.data.length > 0) {
+                    setCartId(response.data[0]._id); // Store the correct cart ID
+                    setCartItems(response.data[0].items || []);
+                }
             }
         } catch (error) {
             console.error("Error fetching cart data:", error.response || error);
@@ -72,10 +77,52 @@ const Ordercart = () => {
         }
     };
 
+    // const handlePlaceOrder = async () => {
+    //     try {
+    //         const userId = localStorage.getItem("id");
+    //         const token = localStorage.getItem("token");
+    //         if (!userId || !token) {
+    //             toast.error("User not authenticated");
+    //             return;
+    //         }
+    //         if (!address || !phone) {
+    //             toast.error("Please fill in address and phone number");
+    //             return;
+    //         }
+
+    //         const orderPromises = cartItems.map((item) =>
+    //             axios.post(
+    //                 `http://localhost:3000/api/order/`,
+    //                 {
+    //                     userId,
+    //                     address,
+    //                     phone_no: phone,
+    //                     cartId: item._id,
+    //                 },
+    //                 {
+    //                     headers: {
+    //                         Authorization: `Bearer ${token}`,
+    //                     },
+    //                 }
+    //             )
+    //         );
+
+    //         await Promise.all(orderPromises);
+    //         toast.success("Your order has been placed successfully");
+    //         setShowModal(false);
+    //         setAddress("");
+    //         setPhone("");
+    //         fetchData();
+    //     } catch (error) {
+    //         console.error("Error placing order:", error);
+    //         toast.error("Failed to place order");
+    //     }
+    // };
     const handlePlaceOrder = async () => {
         try {
             const userId = localStorage.getItem("id");
             const token = localStorage.getItem("token");
+
             if (!userId || !token) {
                 toast.error("User not authenticated");
                 return;
@@ -84,32 +131,36 @@ const Ordercart = () => {
                 toast.error("Please fill in address and phone number");
                 return;
             }
+            if (!cartId) {
+                toast.error("Cart ID not found!");
+                console.error("Cart ID is missing.");
+                return;
+            }
 
-            const orderPromises = cartItems.map((item) =>
-                axios.post(
-                    `http://localhost:3000/api/order/`,
-                    {
-                        userId,
-                        address,
-                        phone_no: phone,
-                        cartId: item._id,
+            console.log("Placing order with Cart ID:", cartId);
+
+            await axios.post(
+                `http://localhost:3000/api/order/`,
+                {
+                    userId,
+                    address,
+                    phone_no: phone,
+                    cartId, // Use the correct cart ID
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
                     },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
+                }
             );
 
-            await Promise.all(orderPromises);
             toast.success("Your order has been placed successfully");
             setShowModal(false);
             setAddress("");
             setPhone("");
             fetchData();
         } catch (error) {
-            console.error("Error placing order:", error);
+            console.error("Error placing order:", error.response?.data || error.message);
             toast.error("Failed to place order");
         }
     };
