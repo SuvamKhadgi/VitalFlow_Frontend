@@ -45,20 +45,10 @@ function Allorder() {
         }
     };
 
-    // Fetch cart details by ID
-    const fetchCartDetails = async (cartId) => {
-        try {
-            const response = await axios.get(`http://localhost:3000/api/cart/${cartId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            setSelectedCart(response.data);
-            setShowModal(true);
-        } catch (error) {
-            console.error('Error fetching cart details:', error);
-            toast.error("Failed to fetch cart details");
-        }
+    // Show cart details in modal (no separate API call needed)
+    const showCartDetails = (cart) => {
+        setSelectedCart(cart);
+        setShowModal(true);
     };
 
     // Delete order
@@ -95,7 +85,7 @@ function Allorder() {
                                 <thead>
                                     <tr className="bg-gray-200 text-gray-700">
                                         <th className="p-4 font-semibold text-sm uppercase">Order ID</th>
-                                        <th className="p-4 font-semibold text-sm uppercase">User ID</th>
+                                        <th className="p-4 font-semibold text-sm uppercase">User</th>
                                         <th className="p-4 font-semibold text-sm uppercase">Cart ID</th>
                                         <th className="p-4 font-semibold text-sm uppercase">Address</th>
                                         <th className="p-4 font-semibold text-sm uppercase">Phone No</th>
@@ -112,9 +102,9 @@ function Allorder() {
                                             <td className="p-4 text-gray-600 break-all">{item.userId || "N/A"}</td>
                                             <td
                                                 className="p-4 text-blue-600 break-all cursor-pointer hover:underline"
-                                                onClick={() => fetchCartDetails(item.cartId)}
+                                                onClick={() => showCartDetails(item.cartId)}
                                             >
-                                                {item.cartId || "N/A"}
+                                                {item.cartId?._id || "N/A"}
                                             </td>
                                             <td className="p-4 text-gray-600">{item.address || "N/A"}</td>
                                             <td className="p-4 text-gray-600">{item.phone_no || "N/A"}</td>
@@ -167,7 +157,7 @@ function Allorder() {
                                         {selectedCart.items.map((cartItem) => (
                                             <tr key={cartItem._id} className="border-b">
                                                 <td className="p-3 text-gray-600">
-                                                    {cartItem.itemId?.item_name || "N/A"}
+                                                    {cartItem.itemId?.item_name || cartItem.itemId || "N/A"}
                                                 </td>
                                                 <td className="p-3 text-gray-600">
                                                     {cartItem.quantity || 0}
