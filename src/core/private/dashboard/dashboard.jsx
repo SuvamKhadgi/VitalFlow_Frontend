@@ -1,12 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import Side from '../../../components/sidebar';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from 'chart.js';
+import React, { useEffect, useState } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import Side from '../../../components/sidebar';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
-// Register ChartJS components
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    if (!token) {
+      toast.error("Please LOGIN");
+      navigate('/login', { replace: true });
+    } else if (role === "user") {
+      toast.error("Access denied: Admins only");
+      navigate('/', { replace: true });
+    }
+  }, [navigate]);
+
+
   const [stats, setStats] = useState({
     users: 0,
     products: 0,
@@ -114,10 +131,10 @@ const Dashboard = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white p-4 rounded-lg shadow-md">
-            <Bar data={barData} options={{ ...chartOptions, title: { ...chartOptions.title, text: 'Overview Bar Chart' }}} />
+            <Bar data={barData} options={{ ...chartOptions, title: { ...chartOptions.title, text: 'Overview Bar Chart' } }} />
           </div>
           <div className="bg-white p-4 rounded-lg shadow-md">
-            <Pie data={pieData} options={{ ...chartOptions, title: { ...chartOptions.title, text: 'Distribution Pie Chart' }}} />
+            <Pie data={pieData} options={{ ...chartOptions, title: { ...chartOptions.title, text: 'Distribution Pie Chart' } }} />
           </div>
         </div>
       </div>

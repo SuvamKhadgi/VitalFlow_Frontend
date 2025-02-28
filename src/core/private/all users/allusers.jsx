@@ -12,9 +12,9 @@ function Users() {
     useEffect(() => {
         if (!localStorage.getItem("token")) {
             navigate('/login', { replace: true });
-          } else if (localStorage.getItem("role") === "user") {
+        } else if (localStorage.getItem("role") === "user") {
             navigate('/', { replace: true });
-          }
+        }
     }, [navigate]); // Add `navigate` to dependency array
 
     const { data: userList } = useGetUser();
@@ -58,6 +58,8 @@ function Users() {
                                                 type="button"
                                                 className="ml-2"
                                                 onClick={() => handleCopy(i?._id)}
+                                                data-testid={`copy-button-${i?._id}`} // Add a unique test ID for each button
+
                                             >
                                                 <Clipboard size={18} className="text-gray-600 hover:text-gray-800" />
                                             </button>

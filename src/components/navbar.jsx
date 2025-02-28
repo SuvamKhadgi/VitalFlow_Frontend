@@ -68,9 +68,28 @@ const Navbar = () => {
     <header className="w-full border-b fixed z-10 bg-white">
       {/* Top Bar */}
       <div className="flex h-16 items-center justify-between border-b px-4 md:px-6">
+        {/* <div className="flex items-center gap-6">
+          
+          <a href="/" className="flex items-center ml-4 md:ml-20">
+            <img
+              src="../src/assets/images/logos.png"
+              alt="Pharm"
+              className="h-17 w-auto"
+            />
+            <img
+              src="../src/assets/images/vitalflow.png"
+              alt="Pharm"
+              className="h-17 w-auto"
+            />
+          </a>
+        </div> */}
+
         <div className="flex items-center gap-6">
           {/* Logo */}
-          <a href="/" className="flex items-center ml-4 md:ml-20">
+          <a
+            href={localStorage.getItem("role") === "admin" ? "/admindashboard" : "/"}
+            className="flex items-center ml-4 md:ml-20"
+          >
             <img
               src="../src/assets/images/logos.png"
               alt="Pharm"
@@ -112,15 +131,15 @@ const Navbar = () => {
           )}
 
           {/* Hamburger Menu Icon */}
-          <button className="md:hidden" onClick={toggleMenu}>
+          <button className="md:hidden bg-white" onClick={toggleMenu}>
             {isOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
         </div>
       </div>
 
       {/* Bottom Navigation */}
-      <nav className={`${isOpen ? "block" : "hidden"} md:flex h-12 items-center justify-center px-4 md:px-6`}>
-        <ul className="flex flex-col md:flex-row items-center gap-6">
+      <nav className={`${isOpen ? "block" : "hidden"} md:flex h-12  items-center justify-center px-4 md:px-6`}>
+        <ul className="flex flex-col md:flex-row items-center bg-white gap-6">
           <li>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger className="flex items-center  text-sm font-medium hover:text-emerald-600">
@@ -129,21 +148,21 @@ const Navbar = () => {
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content className="absolute bg-white shadow-lg rounded-md mt-2 w-40 p-1" sideOffset={8}>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
+                  <a href="/"><DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
                     Body Care<img src="https://img.icons8.com/?size=100&id=ldhSY1aQmC0a&format=png&color=000000" className="h-6" />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"><DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
                     Eye Care<Eye />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"><DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
                     Hair Care <img src="https://img.icons8.com/?size=100&id=7569&format=png&color=000000" className="h-6" />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"><DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
                     Skin Care <img src="https://img.icons8.com/?size=100&id=ceGpdLJ2Or9e&format=png&color=000000" className="h-6" />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"><DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
                     Oral Care<img src="https://img.icons8.com/?size=100&id=ryWKGVXPFtCT&format=png&color=000000" className="h-7" />
-                  </DropdownMenu.Item>
+                  </DropdownMenu.Item></a>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
@@ -156,15 +175,15 @@ const Navbar = () => {
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content className="absolute bg-white shadow-lg rounded-md mt-2 w-40 p-1" sideOffset={8}>
-                  <DropdownMenu.Item className="px-4 py-2 flex  justify-between text-sm hover:bg-gray-100">
+                  <a href="/babycare"> <DropdownMenu.Item className="px-4 py-2 flex  justify-between text-sm hover:bg-gray-100">
                     Baby Care<LucideBaby />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 flex justify-between text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/mencare"> <DropdownMenu.Item className="px-4 py-2 flex justify-between text-sm hover:bg-gray-100">
                     Men's Care<Mars />
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/womancare"><DropdownMenu.Item className="px-4 py-2 text-sm flex justify-between hover:bg-gray-100">
                     Women's Care<Venus />
-                  </DropdownMenu.Item>
+                  </DropdownMenu.Item></a>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
@@ -177,24 +196,24 @@ const Navbar = () => {
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content className="absolute bg-white shadow-lg rounded-md mt-2 w-40 p-1" sideOffset={8}>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/"> <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     General Health
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"> <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Family Nutrition
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"> <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Herbal Supplements
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"> <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Weight Management
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"> <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Vitamins and Minerals
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/"> <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Gym/Sports Supplements
-                  </DropdownMenu.Item>
+                  </DropdownMenu.Item></a>
                   <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
 
                   </DropdownMenu.Item>
@@ -219,16 +238,16 @@ const Navbar = () => {
                   <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Humidifier
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Blood Glucose Monitor
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Humidifier
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Humidifier
                   </DropdownMenu.Item>
-                  <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Measurements
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>

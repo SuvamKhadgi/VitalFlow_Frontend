@@ -9,6 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const loginMutation = useLoginMutation();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(""); // Add this state at the top
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +52,8 @@ const LoginPage = () => {
           }
         },
         onError: (error) => {
-          console.error("Login failed:", error);
+          console.error("Invalid email or password", error);
+          setErrorMessage("Invalid email or password");
         },
       }
     );
@@ -72,7 +74,8 @@ const LoginPage = () => {
           </h2>
           <p className="text-gray-700 mb-4">
             Welcome User, Please enter your Email and Password.
-          </p>
+          </p>{errorMessage && <div className="error-message text-red-500 text-sm">{errorMessage}</div>}
+
           <form onSubmit={handleSubmit}>
             <input
               type="email"
