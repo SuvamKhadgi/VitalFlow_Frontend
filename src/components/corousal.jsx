@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import cour1 from "/src/assets/images/cour1.jpeg";
 import cour2 from "/src/assets/images/cour2.jpeg";
 import cour3 from "/src/assets/images/cour3.jpeg";
@@ -68,9 +68,8 @@ const Corousal = () => {
                 {slides.map((_, index) => (
                     <button
                         key={index}
-                        className={`h-3 w-3 mx-1 rounded-full ${
-                            currentSlide === index ? "bg-blue-500" : "bg-gray-300"
-                        }`}
+                        className={`h-3 w-3 mx-1 rounded-full ${currentSlide === index ? "bg-blue-500" : "bg-gray-300"
+                            }`}
                         onClick={() => setCurrentSlide(index)}
                     ></button>
                 ))}

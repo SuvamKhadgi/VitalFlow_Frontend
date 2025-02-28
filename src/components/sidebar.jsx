@@ -114,7 +114,7 @@ const Side = () => {
         {/* Logout */}
         <MenuItem
           icon={<ExitToApp />}
-          component={<Link to="/logout" />}
+          component={<Link to="/" />}
           style={{ color: "#ff4444" }}
           onClick={handleLogout}
         >
