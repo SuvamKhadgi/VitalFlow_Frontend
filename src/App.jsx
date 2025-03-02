@@ -6,8 +6,12 @@ import Allitems from "./core/private/all items/allitems";
 import Allorder from "./core/private/all order/allorder";
 import Users from "./core/private/all users/allusers";
 import Dashboard from "./core/private/dashboard/dashboard";
-import BabyCare from "./core/public/product/babycare";
 import Ordercart from "./core/public/my cart/mycart";
+import BabyCare from "./core/public/product/babycare";
+import Success from "./core/public/my cart/success";
+import Failure from "./core/public/my cart/failure";
+import  MenCare  from "./core/public/product/mencare";
+import WomanCare from "./core/public/product/womencare";
 const Home = lazy(() => import("./core/public/home/home"));
 const Login = lazy(() => import("./core/public/creads/login_page"));
 const Signup = lazy(() => import("./core/public/creads/signup_page"));
@@ -83,7 +87,23 @@ function App() {
             path: "/babycare",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
-                   <BabyCare/>
+                    <BabyCare />
+                </Suspense>
+            ),
+        },
+        {
+            path: "/womancare",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                    <WomanCare/>
+                </Suspense>
+            ),
+        },
+        {
+            path: "/mencare",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                    <MenCare/>
                 </Suspense>
             ),
         },
@@ -91,7 +111,7 @@ function App() {
             path: "/mycart",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
-                   <Ordercart/>
+                    <Ordercart />
                 </Suspense>
             ),
         },
@@ -99,7 +119,7 @@ function App() {
             path: "/first-aid",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
-                   <FirstAid/>
+                    <FirstAid />
                 </Suspense>
             ),
         },
@@ -107,7 +127,23 @@ function App() {
             path: "/mycart",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
-                   <Ordercart/>
+                    <Ordercart />
+                </Suspense>
+            ),
+        },
+        {
+            path: "/payment-success",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Success/>
+                </Suspense>
+            ),
+        },
+        {
+            path: "/payment-failure",
+            element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Failure/>
                 </Suspense>
             ),
         },
