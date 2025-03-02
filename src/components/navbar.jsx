@@ -226,9 +226,9 @@ const Navbar = () => {
           </li>
           <li>
             <DropdownMenu.Root>
-              <DropdownMenu.Trigger className="flex    text-sm font-medium hover:text-emerald-600">
+              <a href="/devices"><DropdownMenu.Trigger className="flex    text-sm font-medium hover:text-emerald-600">
                 Devices<ChevronDown size={19} />
-              </DropdownMenu.Trigger>
+              </DropdownMenu.Trigger></a>
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content className="absolute bg-white shadow-lg rounded-md mt-2 w-40 p-1" sideOffset={8}>
@@ -238,18 +238,18 @@ const Navbar = () => {
                   <DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Humidifier
                   </DropdownMenu.Item>
-                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  <a href="/devices"><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Blood Glucose Monitor
-                  </DropdownMenu.Item>
-                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/devices"><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Humidifier
-                  </DropdownMenu.Item>
-                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/devices"><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Humidifier
-                  </DropdownMenu.Item>
-                  <a href="/"></a><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
+                  </DropdownMenu.Item></a>
+                  <a href="/devices"><DropdownMenu.Item className="px-4 py-2 text-sm hover:bg-gray-100">
                     Measurements
-                  </DropdownMenu.Item>
+                  </DropdownMenu.Item></a>
                 </DropdownMenu.Content>
               </DropdownMenu.Portal>
             </DropdownMenu.Root>

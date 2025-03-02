@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Footer from "../../../components/footer";
 import Navbar from "../../../components/navbar";
 import { useCartprod, useGetMenCareProducts } from "./productquery";
 
@@ -76,7 +77,7 @@ const MenCare = () => {
             <div className="pt-32">
                 <div className="flex items-center justify-center mb-8">
                     <div className="border-t border-gray-400 w-24"></div>
-                    <Typography className="mx-14 text-2xl font-semibold">BABY CARE</Typography>
+                    <Typography className="mx-14 text-2xl font-semibold">MEN CARE</Typography>
                     <div className="border-t border-gray-400 w-24"></div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 px-6 py-4">
@@ -147,6 +148,7 @@ const MenCare = () => {
                 theme="colored"
                 transition:Bounce
             />
+            <Footer />
         </div>
     );
 };

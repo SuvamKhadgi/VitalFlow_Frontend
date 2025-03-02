@@ -12,7 +12,7 @@ import Navbar from "../../../components/navbar";
 import { useCartprod, useGetBabyCareProducts } from "./productquery";
 
 
-const BabyCare = () => {
+const Haircare = () => {
     const { data, isLoading, isError } = useGetBabyCareProducts();
     const [quantities, setQuantities] = useState({});
     const { mutate: addToCart, isLoading: isAddingToCart } = useCartprod();
@@ -151,14 +151,14 @@ const BabyCare = () => {
     );
 };
 
-export default BabyCare;
+export default Haircare;
 
 
 
 
 
 
-export const Babycare = () => {
+export const haircare = () => {
     const getRandomSubset = (data, numItems) => {
         if (!data) return [];
         const shuffled = [...data].sort(() => 0.5 - Math.random()); // Shuffle the array
@@ -246,10 +246,10 @@ export const Babycare = () => {
                                 ? `${product.description.substring(0, 80)}...`
                                 : product.description}
                         </Typography>
-                        <div className="flex items-center mt-4">
+                        <div className="flex justify-center items-center mt-4">
                             <Button
                                 onClick={() => handleDecrease(product._id)}  // Use _id to pass as a unique identifier
-                                className="bg-gray-300 px-3 py-1 text-lg font-bold"
+                                className="bg-red-400 px-3 py-1 text-lg font-bold"
                             >
                                 -
                             </Button>
@@ -258,7 +258,7 @@ export const Babycare = () => {
                             </span>
                             <Button
                                 onClick={() => handleIncrease(product._id)}  // Use _id to pass as a unique identifier
-                                className="bg-gray-300 px-3 py-1 text-lg font-bold"
+                                className="bg-green-300 px-3 py-1 text-lg font-bold"
                             >
                                 +
                             </Button>

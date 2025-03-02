@@ -154,10 +154,10 @@ const Home = () => {
                                                     ? `${item.description.substring(0, 80)}...`
                                                     : item.description}
                                             </Typography>
-                                            <div className="flex items-center mt-4">
+                                            <div className="flex justify-center items-center mt-4">
                                                 <Button
                                                     onClick={() => handleDecrease(item._id)}
-                                                    className="bg-gray-300 px-3 py-1 text-lg font-bold"
+                                                    className="bg-red-400 px-3 py-1 text-lg font-bold"
                                                 >
                                                     -
                                                 </Button>
@@ -166,7 +166,7 @@ const Home = () => {
                                                 </span>
                                                 <Button
                                                     onClick={() => handleIncrease(item._id)}
-                                                    className="bg-gray-300 px-3 py-1 text-lg font-bold"
+                                                    className="bg-green-300 px-3 py-1 text-lg font-bold"
                                                 >
                                                     +
                                                 </Button>

@@ -7,6 +7,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
+import Footer from "../../../components/footer";
 import Navbar from "../../../components/navbar";
 import { useGetWomanCareProducts } from "./productquery";
 
@@ -80,10 +81,10 @@ const WomanCare = () => {
                                         ? `${product.description.substring(0, 80)}...`
                                         : product.description}
                                 </Typography>
-                                <div className="flex items-center mt-4">
+                                <div className="flex justify-center items-center mt-4">
                                     <Button
                                         onClick={() => handleDecrease(product._id)}  // Use _id to pass as a unique identifier
-                                        className="bg-gray-300 px-3 py-1 text-lg font-bold"
+                                        className="bg-red-400 px-3 py-1 text-lg font-bold"
                                     >
                                         -
                                     </Button>
@@ -112,6 +113,7 @@ const WomanCare = () => {
                 </div>
 
             </div>
+            <Footer />
         </div>
 
 
