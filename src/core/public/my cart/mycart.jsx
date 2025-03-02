@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../../../components/footer";
+import Navbar from "../../../components/navbar";
 
 const Ordercart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -84,7 +86,54 @@ const Ordercart = () => {
 
 
 
-    const handlePlaceOrder = async () => {
+    // const handlePlaceOrder = async () => {
+    //     try {
+    //         const userId = localStorage.getItem("id");
+    //         const token = localStorage.getItem("token");
+
+    //         if (!userId || !token) {
+    //             toast.error("User not authenticated");
+    //             return;
+    //         }
+    //         if (!address || !phone) {
+    //             toast.error("Please fill in address and phone number");
+    //             return;
+    //         }
+    //         if (!cartId) {
+    //             toast.error("Cart ID not found!");
+    //             console.error("Cart ID is missing.");
+    //             return;
+    //         }
+
+    //         console.log("Placing order with Cart ID:", cartId);
+
+    //         await axios.post(
+    //             `http://localhost:3000/api/order/`,
+    //             {
+    //                 userId,
+    //                 address,
+    //                 phone_no: phone,
+    //                 cartId, // Use the correct cart ID
+    //             },
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             }
+    //         );
+
+    //         toast.success("Your order has been placed successfully");
+    //         setShowModal(false);
+    //         setAddress("");
+    //         setPhone("");
+    //         fetchData();
+    //     } catch (error) {
+    //         console.error("Error placing order:", error.response?.data || error.message);
+    //         toast.error("Failed to place order");
+    //     }
+    // };
+
+    const handlePlaceOrder = async (payment_method) => {
         try {
             const userId = localStorage.getItem("id");
             const token = localStorage.getItem("token");
@@ -99,41 +148,97 @@ const Ordercart = () => {
             }
             if (!cartId) {
                 toast.error("Cart ID not found!");
-                console.error("Cart ID is missing.");
                 return;
             }
+            const totalAmount = calculateTotalAmount(cartItems);
 
             console.log("Placing order with Cart ID:", cartId);
 
-            await axios.post(
+            // **Step 1: Place the Order**
+            const orderResponse = await axios.post(
                 `http://localhost:3000/api/order/`,
                 {
                     userId,
                     address,
                     phone_no: phone,
-                    cartId, // Use the correct cart ID
+                    cartId,
+                    total_amount: totalAmount
                 },
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             );
+            console.log("Order Response:", orderResponse.data); // Debugging
+
+            // if (!orderResponse.data || !orderResponse.data.orderId) {
+            //     throw new Error("Order placement failed!");
+            // }
 
             toast.success("Your order has been placed successfully");
+
+            // **Step 2: Initiate Payment via Esewa**
+            const orderId = orderResponse.data._id;
+            const url = `http://localhost:3000/api/order/create/${orderId}`;
+
+            const paymentData = {
+                amount: totalAmount,
+                payment_method:payment_method?.value || "default",
+            };
+
+            const paymentResponse = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(paymentData),
+            });
+
+            if (paymentResponse.ok) {
+                const responseData = await paymentResponse.json();
+                console.log("Payment Response:", responseData); // Debugging
+                esewaCall(responseData.formData);
+            } else {
+                throw new Error("Payment failed!");
+            }
+
+            // **Step 3: Reset UI**
             setShowModal(false);
             setAddress("");
             setPhone("");
             fetchData();
         } catch (error) {
             console.error("Error placing order:", error.response?.data || error.message);
-            toast.error("Failed to place order");
+            toast.error(error.message || "Failed to place order");
         }
     };
+
+
+
+
+
+    const esewaCall = (formData) => {
+        console.log("Redirecting to eSewa with:", formData);
+        const path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = path;
+
+        for (const key in formData) {
+            const hiddenField = document.createElement("input");
+            hiddenField.type = "hidden";
+            hiddenField.name = key;
+            hiddenField.value = formData[key];
+            form.appendChild(hiddenField);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    };
+
 
     return (
 
         <>
+            <div className=""><Navbar></Navbar></div>
             <div className="container mx-auto p-4">
                 <div className="navvbaar"></div>
                 <div className="bg-white mt-20 shadow-lg rounded-lg p-6">
@@ -222,10 +327,15 @@ const Ordercart = () => {
                             <input type="text" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full p-2 mb-4 border rounded" />
                             <input type="text" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full p-2 mb-4 border rounded" />
                             <button onClick={handlePlaceOrder} className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Order</button>
+                            {/* <button onClick={() => handlePlaceOrder("esewa")} className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                Order
+                            </button> */}
+
                         </div>
                     </div>
                 )}
             </div>
+            <Footer />
         </>
     );
 };
